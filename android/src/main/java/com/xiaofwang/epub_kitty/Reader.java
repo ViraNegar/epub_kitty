@@ -73,7 +73,7 @@ public class Reader  implements OnHighlightListener, ReadLocatorListener, FolioR
     }
 
     private void setPageHandler(BinaryMessenger messenger){
-
+        android.util.Log.d("MY_TAG", "setPageHandler: ");
         new EventChannel(messenger,PAGE_CHANNEL).setStreamHandler(new EventChannel.StreamHandler() {
             @Override
             public void onListen(Object o, EventChannel.EventSink eventSink) {

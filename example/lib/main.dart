@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -7,7 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:epub_kitty/epub_kitty.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -21,11 +26,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
-    // pageChannel.receiveBroadcastStream('com.xiaofwang.epub_kitty/page').listen(
-    //     (Object event) {
-    //   print('page:$event');
-    // }, onError: null);
+    pageChannel.receiveBroadcastStream('com.xiaofwang.epub_kitty/page').listen((Object event) {
+      print('goddamnit page:$event');
+    }, onError: null);
   }
 
   @override
@@ -43,9 +46,11 @@ class _MyAppState extends State<MyApp> {
 
               String iosBookPath = '${appDocDir.path}/4.epub';
               String androidBookPath =
-                  'file:///android_asset/PhysicsSyllabus.epub';
-              EpubKitty.setConfig("iosBook", "#32a852", "vertical", true);
-              EpubKitty.open(iosBookPath);
+                  'file:///android_asset/rtltest.epub';
+              EpubKitty.setConfig("iosBook", "#32a852", "HORIZONTAL", true);
+              EpubKitty.open(androidBookPath);
+              WidgetsFlutterBinding.ensureInitialized();
+
             },
             child: Container(
               child: Text('open epub'),
